@@ -8,7 +8,7 @@ from torchvision import transforms, datasets
 dtype = torch.float
 
 # Running on the gpu; to change to cpu, switch "cuda:0" to "cpu"
-device = torch.device("cuda:0")
+device = torch.device("cpu")
 
 # Creating a debug variable to prevent unnecssary printing
 DEBUG = False
@@ -23,16 +23,15 @@ weatherTrainFile.close()
 histTrainData = histTrainData.split(',')
 
 # Creating params for our model defining the size of each layer
-H1, H2, Num_In_Nodes, Num_Out_Nodes = 50, 20, 5, 2
+H1, H2, Num_In_Nodes, Num_Out_Nodes = 50, 20, 5, 1
 
 # Creating the model for predicting weather
 model = nn.Sequential(
-    nn.Linear(Num_In_Nodes, H1).cuda(),
-    nn.ReLU().cuda(),
-    nn.Linear(H1, H2).cuda(),
-    nn.ReLU().cuda(),
-    nn.Linear(H2, Num_Out_Nodes).cuda(),
-    nn.LogSoftmax(dim=1).cuda()
+    nn.Linear(Num_In_Nodes, H1),
+    nn.ReLU(),
+    nn.Linear(H1, H2),
+    nn.ReLU(),
+    nn.Linear(H2, Num_Out_Nodes)
 )
 
 # Setting params for optimizer
@@ -66,14 +65,16 @@ for year in range(epoch):
         # Resetting the optimizer's gradient for a new image batch
         optimizer.zero_grad()
 
-        tensorData = torch.FloatTensor(data_point[1:], dtype=dtype, device=device)
+        input_node = [float(i) for i in data_point]
+
+        tensorData = torch.FloatTensor(input_node[1:], device=device)
         print(tensorData)
 
         # Now run the datapoint through the model
-        nn_guess = model(tensorData).cuda()
+        nn_guess = model(tensorData)
 
         # Calculating negative log-likelihood loss of the most recent batch
-        loss = nn.functional.nll_loss(nn_guess, data_point[0].cuda()).cuda()
+        loss = nn.functional.nll_loss(nn_guess, input_node[0])
 
         # Backprop to calculate gradients for each of the weights
         loss.backward()
