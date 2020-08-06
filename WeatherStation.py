@@ -1,4 +1,4 @@
-import csv
+import io
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -35,14 +35,14 @@ model = nn.Sequential(
 )
 
 # Setting params for optimizer
-Learning_Rate = 5e-2
+Learning_Rate = 0.1
 
 # Creating an instance of the optimizer
 optimizer = optim.SGD(model.parameters(), lr=Learning_Rate, momentum=0.9)
 optimizer.zero_grad()
 
 # Setting final params for training
-epoch = 2
+epoch = 1
 
 ###########################################################################
 # Training the neural network to the sequential model based on data
@@ -65,16 +65,18 @@ for year in range(epoch):
         # Resetting the optimizer's gradient for a new image batch
         optimizer.zero_grad()
 
+        # Typecasting the input data into floats
         input_node = [float(i) for i in data_point]
 
-        tensorData = torch.FloatTensor(input_node[1:], device=device)
-        print(tensorData)
+        # Creating a float tensor of the weather data and label
+        tensorData = torch.tensor(input_node[1:], device=device)
+        tensorLabel = torch.tensor(input_node[0], device=device)
 
         # Now run the datapoint through the model
         nn_guess = model(tensorData)
 
         # Calculating negative log-likelihood loss of the most recent batch
-        loss = nn.functional.nll_loss(nn_guess, input_node[0])
+        loss = nn.functional.l1_loss(nn_guess[0], tensorLabel)
 
         # Backprop to calculate gradients for each of the weights
         loss.backward()
