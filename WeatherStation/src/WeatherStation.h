@@ -11,7 +11,6 @@ class D_Class {
 public:
 	D_Class() = default;
 	D_Class(int&& sM, int&& lL, int&& t, int&& bP, int&& ID, int&& dO) {
-		printf("Init!\n");
 		m_soilMoisture = (double)sM;
 		m_lightLevel = (double)lL;
 		m_temp = (uint16_t)t;
@@ -21,7 +20,6 @@ public:
 	}
 
 	D_Class(D_Class&& newD) noexcept {
-		printf("Move!\n");
 		m_soilMoisture = newD.m_soilMoisture;
 		m_lightLevel = newD.m_lightLevel;
 		m_temp = newD.m_temp;
@@ -50,7 +48,6 @@ public:
 				}
 				lineCounter++;
 			}
-			std::cout << lineCounter << std::endl;
 			// Here we check to see if there are 24 hours worth of logs
 			if (lineCounter >= MAX_LOGS) {
 				unsigned int startingIndex = data.find_first_of('\n') + 1;
@@ -69,7 +66,6 @@ public:
 			std::snprintf(strBuffer, 30, "\n%f,%f,%d,%d,%d,%d,", m_soilMoisture, m_lightLevel, m_temp, m_baroPressure, m_nodeID, m_digitalOut);
 			// And add the temp string to the end of the output string
 			outData += strBuffer;
-			//std::cout << outData << std::endl;
 			// Then write the outputData to the dataFile
 			dataFile << outData;
 			dataFile.close();
@@ -83,7 +79,6 @@ public:
 	}
 
 	void Clear() {
-		printf("Clear!\n");
 		m_soilMoisture = 0;
 		m_lightLevel = 0;
 		m_temp = 0;
@@ -133,10 +128,9 @@ public:
 		std::ifstream pullFile(inputFile);
 		if (pullFile.is_open()) {
 			std::string data;
-			// Here we pull the first line from the file, which should be the only file
+			// Here we pull the first line from the file, which should be the only line
 			std::getline(pullFile, data);
 			pullFile.close();
-			std::cout << data << std::endl;
 
 			// Now that we have the data, we just need to transfer it to the class attributes
 			m_30min = data[0];

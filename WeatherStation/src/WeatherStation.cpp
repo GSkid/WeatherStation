@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <iostream>
 #include <vector>
 #include "WeatherStation.h"
 #include "UnitTests.h"
@@ -10,9 +8,9 @@
 
 int main() {
 	// Logging Test
-	//std::cout << "Result of Log Test: " << D_Log_Test("./src/DataFile.txt) << std::endl;
+	std::cout << "D_Class Test Suite - Method=Log() Result: " << (D_Log_Test("./src/DataFile.txt") ? "SUCCESS" : "FAIL") << std::endl;
 
 	// Pulling Test
-	std::cout << "Result of Pull Test: " << P_Pull_Test("../NN_Guess.txt") << std::endl;
+	std::cout << "P_Class Test Suite - Method=Pull() Result: " << (P_Pull_Test("../NN_Guess_TEST.txt") ? "SUCCESS" : "FAIL") << std::endl;
 	std::cin.get();
 }
