@@ -2,16 +2,17 @@
 #include <iostream>
 #include <vector>
 #include "WeatherStation.h"
+#include "UnitTests.h"
 
 
 
 
 
 int main() {
-	D_Class WeatherData(0, 14, 1000, 27, 10, 0);
+	// Logging Test
+	//std::cout << "Result of Log Test: " << D_Log_Test("./src/DataFile.txt) << std::endl;
 
-	WeatherData.Log();
-	WeatherData.Clear();
-
+	// Pulling Test
+	std::cout << "Result of Pull Test: " << P_Pull_Test("../NN_Guess.txt") << std::endl;
 	std::cin.get();
 }

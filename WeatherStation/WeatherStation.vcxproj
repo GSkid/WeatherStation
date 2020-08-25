@@ -147,9 +147,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\UnitTests.cpp" />
     <ClCompile Include="src\WeatherStation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\UnitTests.h" />
     <ClInclude Include="src\WeatherStation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

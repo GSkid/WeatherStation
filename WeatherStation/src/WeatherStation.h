@@ -34,8 +34,8 @@ public:
 
 	// METHODS
 
-	int Log() {
-		std::ifstream dataFile("./src/DataFile.txt");
+	int Log(const char* inputFile) {
+		std::ifstream dataFile(inputFile);
 		// Double check the txt file was able to be opened
 		if (dataFile.is_open()) {
 			std::string line, data, outData;
@@ -77,8 +77,9 @@ public:
 		// Else if we can't find the txt file
 		else {
 			std::cout << "DataFile.txt does not exist or cannot be found" << std::endl;
+			return 0;
 		}
-		return 0;
+		return 1;
 	}
 
 	void Clear() {
@@ -109,6 +110,67 @@ private:
 	uint16_t m_baroPressure;
 	uint16_t m_nodeID;
 	uint16_t m_digitalOut;
+};
+
+class P_Class {
+public:
+	P_Class() = default;
+	P_Class(P_Class&& newPull) noexcept {
+		m_30min = newPull.m_30min;
+		m_1hr = newPull.m_1hr;
+		m_3hr = newPull.m_3hr;
+		m_6hr = newPull.m_6hr;
+		m_12hr = newPull.m_12hr;
+		m_24hr = newPull.m_24hr;
+
+		newPull.Clear();
+	}
+
+
+	// METHODS
+
+	int Pull(const char* inputFile) {
+		std::ifstream pullFile(inputFile);
+		if (pullFile.is_open()) {
+			std::string data;
+			// Here we pull the first line from the file, which should be the only file
+			std::getline(pullFile, data);
+			pullFile.close();
+			std::cout << data << std::endl;
+
+			// Now that we have the data, we just need to transfer it to the class attributes
+			m_30min = data[0];
+			m_1hr = data[1];
+			m_3hr = data[2];
+			m_6hr = data[3];
+			m_12hr = data[4];
+			m_24hr = data[5];
+
+		}
+		// If the file can't be opened or found
+		else {
+			std::cout << "File cannot be opened or found" << std::endl;
+			return 0;
+		}
+		return 1;
+	}
+
+	void Clear() {
+		m_30min = 0;
+		m_1hr = 0;
+		m_3hr = 0;
+		m_6hr = 0;
+		m_12hr = 0;
+		m_24hr = 0;
+	}
+
+private:
+	uint8_t m_30min;
+	uint8_t m_1hr;
+	uint8_t m_3hr;
+	uint8_t m_6hr;
+	uint8_t m_12hr;
+	uint8_t m_24hr;
 };
 
 #endif
