@@ -1,7 +1,7 @@
 #include "WeatherStation.h"
 #include "UnitTests.h"
 
-//Logging
+// Logging
 int D_Log_Test(const char* inputFile) {
 	// Initial Hardcoded class
 	D_Class WeatherData(0, 14, 1000, 27, 10, 0);
