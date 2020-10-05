@@ -34,6 +34,9 @@ public:
 	int Log(const char*);
 	void Clear();
 	void Print();
+	int Read_LightLevelSensor(int);
+	int Read_TemperatureSensor(int);
+	int Read_BarometricSensor(int);
 
 private:
 	double m_soilMoisture;
@@ -72,5 +75,7 @@ private:
 	uint8_t m_12hr;
 	uint8_t m_24hr;
 };
+
+
 
 #endif

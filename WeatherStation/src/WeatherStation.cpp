@@ -94,6 +94,16 @@ void D_Class::Print() {
 }
 
 
+/*@Function: D_Class::Print
+* @Param: void
+* @Return: void
+* @Desc: Prints all the private data in the  D_Class object
+*/
+int D_Class::Read_LightLevelSensor(int pinID) {
+	return 1;
+}
+
+
 /******** P_CLASS METHODS **********/
 
 /*@Function: P_Class::Pull
