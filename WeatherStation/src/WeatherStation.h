@@ -9,6 +9,8 @@
 
 class D_Class {
 public:
+	// Constructors
+
 	D_Class() = default;
 	D_Class(int&& sM, int&& lL, int&& t, int&& bP, int&& ID, int&& dO) {
 		m_windSpeed = (double)sM;
@@ -52,6 +54,8 @@ private:
 
 class P_Class {
 public:
+	// Constructors 
+
 	P_Class() = default;
 	P_Class(P_Class&& newPull) noexcept {
 		m_30min = newPull.m_30min;
