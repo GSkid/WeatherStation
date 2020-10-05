@@ -94,12 +94,47 @@ void D_Class::Print() {
 }
 
 
-/*@Function: D_Class::Print
-* @Param: void
-* @Return: void
-* @Desc: Prints all the private data in the  D_Class object
+/*@Function: D_Class::Read_LightLevelSensor
+* @Param: pinID - the pin number the sensor is on; -1 if the sensor is not used
+* @Return: int - 1 if the sensor was able to read properly, 0 if there was an error with the sensor
+* @Desc: Reads the current value from the light level sensor, cleans out some noise, and 
+* adds the value to the D_Class object's private member data
 */
 int D_Class::Read_LightLevelSensor(int pinID) {
+	if (pinID == -1) return 0;
+	return 1;
+}
+
+/*@Function: D_Class::Read_TemperatureSensor
+* @Param: pinID - the pin number the sensor is on; -1 if the sensor is not used
+* @Return: int - 1 if the sensor was able to read properly, 0 if there was an error with the sensor
+* @Desc: Reads the current value from the light level sensor, cleans out some noise, and
+* adds the value to the D_Class object's private member data
+*/
+int D_Class::Read_TemperatureSensor(int pinID) {
+	if (pinID == -1) return 0;
+	return 1;
+}
+
+/*@Function: D_Class::Read_PressureSensor
+* @Param: pinID - the pin number the sensor is on; -1 if the sensor is not used
+* @Return: int - 1 if the sensor was able to read properly, 0 if there was an error with the sensor
+* @Desc: Reads the current value from the barometric pressure sensor, cleans out some noise, and
+* adds the value to the D_Class object's private member data
+*/
+int D_Class::Read_LightLevelSensor(int pinID) {
+	if (pinID == -1) return 0;
+	return 1;
+}
+
+/*@Function: D_Class::Read_WindSpeedSensor
+* @Param: pinID - the pin number the sensor is on; -1 if the sensor is not used
+* @Return: int - 1 if the sensor was able to read properly, 0 if there was an error with the sensor
+* @Desc: Reads the current value from the barometric pressure sensor, cleans out some noise, and
+* adds the value to the D_Class object's private member data
+*/
+int D_Class::Read_LightLevelSensor(int pinID) {
+	if (pinID == -1) return 0;
 	return 1;
 }
 

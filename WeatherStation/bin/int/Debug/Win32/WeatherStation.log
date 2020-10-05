@@ -1,5 +1,7 @@
 ﻿  UnitTests.cpp
   WeatherStation.cpp
+C:\Users\grant\Desktop\SoftwareProjects\WeatherStation\WeatherStation\src\WeatherStation.cpp(50,56): error C2065: 'm_soilMoisture': undeclared identifier
+C:\Users\grant\Desktop\SoftwareProjects\WeatherStation\WeatherStation\src\WeatherStation.cpp(72,2): error C2065: 'm_soilMoisture': undeclared identifier
+C:\Users\grant\Desktop\SoftwareProjects\WeatherStation\WeatherStation\src\WeatherStation.cpp(88,41): error C2065: 'm_soilMoisture': undeclared identifier
   WeatherStation_Main.cpp
   Generating Code...
-  WeatherStation.vcxproj -> C:\Users\grant\Desktop\SoftwareProjects\WeatherStation\WeatherStation\bin\Debug\Win32\WeatherStation.exe

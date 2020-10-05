@@ -11,7 +11,7 @@ class D_Class {
 public:
 	D_Class() = default;
 	D_Class(int&& sM, int&& lL, int&& t, int&& bP, int&& ID, int&& dO) {
-		m_soilMoisture = (double)sM;
+		m_windSpeed = (double)sM;
 		m_lightLevel = (double)lL;
 		m_temp = (uint16_t)t;
 		m_baroPressure = (uint16_t)bP;
@@ -20,7 +20,7 @@ public:
 	}
 
 	D_Class(D_Class&& newD) noexcept {
-		m_soilMoisture = newD.m_soilMoisture;
+		m_windSpeed = newD.m_windSpeed;
 		m_lightLevel = newD.m_lightLevel;
 		m_temp = newD.m_temp;
 		m_baroPressure = newD.m_baroPressure;
@@ -36,10 +36,11 @@ public:
 	void Print();
 	int Read_LightLevelSensor(int);
 	int Read_TemperatureSensor(int);
-	int Read_BarometricSensor(int);
+	int Read_PressureSensor(int);
+	int Read_WindSpeedSensor(int);
 
 private:
-	double m_soilMoisture;
+	double m_windSpeed;
 	double m_lightLevel;
 	uint16_t m_temp;
 	uint16_t m_baroPressure;
