@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="src\UnitTests.cpp" />
     <ClCompile Include="src\WeatherStation.cpp" />
+    <ClCompile Include="src\WeatherStation_Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\UnitTests.h" />
