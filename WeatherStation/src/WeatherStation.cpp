@@ -44,7 +44,7 @@ int D_Class::Log(const char* outputFile) {
 		dataFile.close();
 
 		// Here we open the output file
-		std::ofstream dataFile("./src/DataFile.txt");
+		std::ofstream dataFile(outputFile);
 		// Then we add all the contents from the most recent data pull to a temp string
 		char strBuffer[30];
 		std::snprintf(strBuffer, 30, "\n%f,%f,%d,%d,%d,%d,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_nodeID, m_digitalOut);
@@ -56,7 +56,7 @@ int D_Class::Log(const char* outputFile) {
 	}
 	// Else if we can't find the txt file
 	else {
-		std::cout << "DataFile.txt does not exist or cannot be found" << std::endl;
+		std::cout << outputFile << " does not exist or cannot be found" << std::endl;
 		return 0;
 	}
 	return 1;
