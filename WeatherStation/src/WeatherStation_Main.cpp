@@ -15,4 +15,5 @@ int main() {
 	std::cout << "P_Class Test Suite - Method=Pull() Result: " << (P_Pull_Test("../NN_Guess_TEST.txt") ? "SUCCESS" : "FAIL") << std::endl;
 #endif //TEST
 	std::cin.get();
+	return 0;
 }
