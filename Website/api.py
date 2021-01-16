@@ -8,6 +8,12 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
+
+# About me page uses about_me.html
+@app.route("/about_me")
+def about_me():
+    return render_template("about_me.html")
+
 # This method allows the user to get the json data from the web app
 @app.route("/api_get")
 def api_get():
