@@ -19,6 +19,8 @@ public:
 		m_baroPressure = (uint16_t)bP;
 		m_nodeID = (uint16_t)ID;
 		m_digitalOut = (uint16_t)dO;
+		m_precipAmount = 0;
+		m_windDirection = 0;
 	}
 
 	D_Class(D_Class&& newD) noexcept {
@@ -34,6 +36,7 @@ public:
 
 	// Methods
 	int Log(const char*);
+	int CSV_Log(const char*, const char*, std::string = "0");
 	void Clear();
 	void Print();
 	int Read_LightLevelSensor(int);
@@ -42,7 +45,9 @@ public:
 	int Read_WindSpeedSensor(int);
 
 private:
+	double m_precipAmount;
 	double m_windSpeed;
+	double m_windDirection;
 	double m_lightLevel;
 	uint16_t m_temp;
 	uint16_t m_baroPressure;
@@ -80,7 +85,6 @@ private:
 	uint8_t m_12hr;
 	uint8_t m_24hr;
 };
-
 
 
 #endif

@@ -1,9 +1,10 @@
 #include <vector>
+#include <ctime>
 #include "WeatherStation.h"
 #include "UnitTests.h"
 
 
-
+#pragma warning(disable : 4996)
 
 
 /********** D_CLASS METHODS **********/
@@ -60,6 +61,46 @@ int D_Class::Log(const char* outputFile) {
 		return 0;
 	}
 	return 1;
+}
+
+
+/*@Function: D_Class::CSV_Log
+* @Param: const char* outPut - file path to the file where weather data is to be logged
+* @Return: int - 1 if the outputFile was successfully opened, 0 if it fails to open
+* @Desc: Logs the private data of the D_Class object to an output file. First checks the
+* output file, deleting a line if there are at least MAX_LOGS lines (this represents a
+* 24 hour time period). Then the data gets logged in the format -
+* Soil Moisture (f), Light Level (f), Temperature (d), Barometric Pressure (d), Node ID (d), Digital Out (d)
+*/
+int D_Class::CSV_Log(const char* forecastFile, const char* outputFile, std::string dateTime) {
+	// Get the forecast predictions from the neural network
+	std::ifstream forecast(forecastFile);
+	// Double check the txt file was able to be opened
+	std::string forecastPrediction, line;
+	if (forecast.is_open()) {
+		// Get the file contents
+		std::getline(forecast, line);
+		forecastPrediction += line;
+	}
+
+	// Get the current time if not provided
+	if (!dateTime.compare("0")) {
+		time_t giveMeTime = time(NULL);
+		dateTime = ctime(&giveMeTime);
+	}
+
+	// Here we open the output file
+	std::ofstream dataFile(outputFile);
+	if (dataFile.is_open()) {
+		// Then we add all the contents from the most recent data pull to a temp string
+		/*char strBuffer[30];
+		std::snprintf(strBuffer, 30, "Temp,Humidity,Light,WindSpeed,WindDirection,Precip,ForecastPrecip,TimeStamp\n%d,%d,%f,%f,%f,%f,%c,%s", m_temp, m_baroPressure, m_lightLevel, m_windSpeed, m_windDirection, m_precipAmount, forecastPrediction[1], dateTime);*/
+		// Then write the outputData to the dataFile
+		dataFile << "Temp,Humidity,Light,WindSpeed,WindDirection,Precip,ForecastPrecip,TimeStamp\n" << m_temp << "," << m_baroPressure << "," << m_lightLevel << "," << m_windSpeed << "," << m_windDirection << "," << m_precipAmount << "," << forecastPrediction[1] << "," << dateTime;
+		dataFile.close();
+		return 1;
+	}
+	return 0;
 }
 
 

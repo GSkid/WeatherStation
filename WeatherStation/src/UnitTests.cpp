@@ -14,12 +14,8 @@ int D_Log_Test(const char* inputFile) {
 	std::string line, data, lastLine;
 	int lineCounter = 0;
 	while (std::getline(dataFile, line)) {
-		if (!lineCounter) {
-			data += line;
-		}
-		else {
-			data += "\n" + line;
-		}
+		if (!lineCounter) data += line;
+		else data += "\n" + line;
 		lineCounter++;
 	}
 	// Now that we have the full file in data, we find the last '\n' char and read everything after it
@@ -31,6 +27,27 @@ int D_Log_Test(const char* inputFile) {
 
 	// Finally we compare with what was read in vs our hardcoded value
 	return((lastLine.compare("0.000000,14.000000,1000,27,1") == 0) ? 1 : 0);
+}
+
+// CSV Logging
+int D_CSV_Log_Test(const char* forecastFile, const char* outputFile, const char* dateTime) {
+	// Initial Hardcoded class
+	D_Class WeatherData(0, 14, 1000, 27, 10, 0);
+
+	// Calling the CSV Log method
+	WeatherData.CSV_Log(std::move(forecastFile), std::move(outputFile), std::move(dateTime));
+
+	std::ifstream csvFile(outputFile);
+	// Now we just read the file
+	std::string fileContents, line;
+	// Get the file contents
+	std::getline(csvFile, line);
+	fileContents += line + '\n';
+	std::getline(csvFile, line);
+	fileContents += line;
+	
+	// Now check the file contents
+	return (!fileContents.compare("Temp,Humidity,Light,WindSpeed,WindDirection,Precip,ForecastPrecip,TimeStamp\n1000,27,14,0,0,0,0,-1")) ? 1 : 0;
 }
 
 
