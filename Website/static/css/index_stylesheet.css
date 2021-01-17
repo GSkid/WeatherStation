@@ -73,6 +73,9 @@ header ul {
     This is the outer svg wrapper that the SVG itself will 
     fill. Multiple svg-wrapper classes can be put side by side.
 */
+#button:link {
+  text-decoration: none;
+}
 
 .svg-wrapper {
   position: relative;
@@ -110,9 +113,6 @@ header ul {
 #text {
   margin-top: -60px;
   text-align: center;
-}
-
-#text a {
   color: white;
   text-decoration: none;
   font-weight: 100;
@@ -131,9 +131,52 @@ make it thinner, then set it to again wrap around the entire parent element.
   stroke: #464a4a;
 }
 
-.svg-wrapper:hover #text a {
+.svg-wrapper:hover #text {
   color: #f2ff00;
   transition-delay: 0.75s;
 }
 
 /* END API_GET BUTTON */
+
+/* ABOUT */
+#about {
+  position: relative;
+  top: 325px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#about-header {
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  padding: 20px;
+  border-style: solid;
+  border-width: medium;
+  border-color: white;
+  color: white;
+  text-align: center;
+  font-size: 46px;
+}
+
+#basic-info {
+  color: white;
+  width: 60%;
+  min-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 26px;
+}
+
+#update-status {
+  padding-top: 80px;
+  color: white;
+  width: 60%;
+  min-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 16px;
+}
