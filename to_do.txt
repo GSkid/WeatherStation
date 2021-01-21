@@ -1,0 +1,29 @@
+# Stuff still needed to do before website hosting
+
+1. Build the weather sensors (light, temp, pressure, wind speed, wind direction, precip)
+	a) Map the sensors to gpio pins
+	b) Fix the D_Class object's member variables, constructors, and methods
+
+2. Add more information to the website pages
+	a) Update the info and change formatting on the home page
+	b) Add information on the About Me page (change name too) and reference portfolio website
+
+3. Create the control loop for the sensor node
+	a) Sleep for 15 minutes
+	b) Wake up and read sensors
+	c) Send sensor data to rpi
+	d) Go back to sleep
+
+4. Create the control loop for the rpi
+	a) Check for rf24 messages from the sensor node
+	b) When a message is received, update the D_Class object members
+	c) Log the data to the data stream file
+	d) Call the python neural network forecast file
+	e) Log the results to the Weather Data's csv file for output
+
+4. Set up the rpi to host a website using no_ip
+	a) Sign up with no_ip for a static ip address
+	b) Install apache and anything else necessary for hosting on rpi
+	c) Verify that both c++ file and python file can be executed at same time
+	d) Check that webiste can be reached through network
+	e) Check that website can be reached from outside network
