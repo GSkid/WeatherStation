@@ -4,6 +4,11 @@ import csv
 def create_app(): 
     app = Flask(__name__)
 
+    # Error routing
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return 'This route does not exist {}'.format(request.url), 404
+    
     # Home page uses index.html
     @app.route("/")
     def home():
