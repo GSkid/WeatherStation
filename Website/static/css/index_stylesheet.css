@@ -39,8 +39,7 @@ header ul {
 .nav {
   font-size: 16px;
   display: inline-block;
-  padding-left: 20px;
-  padding-right: 40px;
+  padding-right: 20px;
 }
 
 .nav .link {
@@ -147,10 +146,11 @@ make it thinner, then set it to again wrap around the entire parent element.
 }
 
 #about-header {
-  margin-top: 200px;
+  margin-top: 300px;
   margin-left: auto;
   margin-right: auto;
-  width: 40%;
+  width: 38%;
+  min-width: 400px;
   padding: 20px;
   border-style: solid;
   border-width: medium;
@@ -161,17 +161,22 @@ make it thinner, then set it to again wrap around the entire parent element.
 }
 
 #basic-info {
-  color: white;
+ /*color: #4B6083;*/
+  color: #1C5883;
+  font-family: montserrat;
   width: 60%;
   min-width: 350px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  font-size: 26px;
+  font-size: 22px;
 }
 
 #update-status {
   padding-top: 80px;
+  padding-bottom: 80px;
   color: white;
   width: 60%;
   min-width: 350px;
