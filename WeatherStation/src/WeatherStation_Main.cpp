@@ -6,16 +6,16 @@
 #include "UnitTests.h"
 #endif //TEST_SUITE
 #ifdef RF24
-#include "./src/RF24/RF24.h"
-#include "./src/RF24Network/RF24Network.h"
-#include "./src/RF24Mesh/RF24Mesh.h"
+#include "RF24/RF24.h"
+#include "RF24Network/RF24Network.h"
+#include "RF24Mesh/RF24Mesh.h"
 #endif //RF24
 #ifdef RPi
-#include "./src/RF_24/utility/RPi/bcm2835.h"
+#include "RF24/utility/RPi/bcm2835.h"
 #endif //RPi
 
 // Defines
-#define DATA_FLAG           (flags << 0)
+#define DATA_FLAG           (flags)
 #define TIMER_15_MINS_FLAG  (flags << 1)
 
 #define MINUTES_15 (900000)
@@ -141,7 +141,7 @@ int main() {
         /********* STEP 5 *********/
         /* Log the data to the Weather Data's csv file for output (to be used by website) */
 #ifdef RPi
-        if (DATA_FLAG || Timer(MINUTES_15, CSV_Log_Timer) {
+        if (DATA_FLAG || Timer(MINUTES_15, CSV_Log_Timer)) {
             // Log the data to the Website output file
             WeatherData.CSV_Log("../NN_Guess_TEST.txt", "../Website/WeatherData.csv", "0");
         }
