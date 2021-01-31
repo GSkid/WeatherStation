@@ -6,7 +6,6 @@
 
 2. Add more information to the website pages
 	a) Update the info and change formatting on the home page
-	b) Add information on the About Me page (change name too) and reference portfolio website
 
 3. Create the control loop for the sensor node
 	a) Sleep for 15 minutes
