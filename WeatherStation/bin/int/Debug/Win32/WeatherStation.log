@@ -1,2 +1,6 @@
-﻿  WeatherStation_Main.cpp
+﻿  UnitTests.cpp
+  WeatherStation.cpp
+  WeatherStation_Main.cpp
+  Generating Code...
+  LINK : bin\Debug\Win32\WeatherStation.exe not found or not built by the last incremental link; performing full link
   WeatherStation.vcxproj -> C:\Users\grant\Desktop\SoftwareProjects\WeatherStation\WeatherStation\bin\Debug\Win32\WeatherStation.exe

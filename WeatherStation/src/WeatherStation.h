@@ -43,6 +43,12 @@ public:
 	int Read_TemperatureSensor(int);
 	int Read_PressureSensor(int);
 	int Read_WindSpeedSensor(int);
+	void Set_m_precipAmount(double);
+	void Set_m_windSpeed(double);
+	void Set_m_windDirection(double);
+	void Set_m_lightLevel(double);
+	void Set_m_temp(uint16_t);
+	void Set_m_baroPressure(uint16_t);
 
 private:
 	double m_precipAmount;

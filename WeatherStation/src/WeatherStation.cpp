@@ -83,7 +83,7 @@ int D_Class::CSV_Log(const char* forecastFile, const char* outputFile, std::stri
 		forecastPrediction += line;
 	}
 
-	// Get the current time if not provided
+	// Get the current time if not provided (gets new time stamp if passed "0")
 	if (!dateTime.compare("0")) {
 		time_t giveMeTime = time(NULL);
 		dateTime = ctime(&giveMeTime);
@@ -193,6 +193,30 @@ int D_Class::Read_WindSpeedSensor(int pinID) {
 
 	// Add the result to m_windSpeed
 	return 1;
+}
+
+void D_Class::Set_m_precipAmount(double new_m_precipAmount) {
+	m_precipAmount = new_m_precipAmount;
+}
+
+void D_Class::Set_m_windSpeed(double new_m_windSpeed) {
+	m_windSpeed = new_m_windSpeed;
+}
+
+void D_Class::Set_m_windDirection(double new_m_windDirection) {
+	m_windDirection = new_m_windDirection;
+}
+
+void D_Class::Set_m_lightLevel(double new_m_lightLevel) {
+	m_lightLevel = new_m_lightLevel;
+}
+
+void D_Class::Set_m_temp(uint16_t new_m_temp) {
+	m_temp = new_m_temp;
+}
+
+void D_Class::Set_m_baroPressure(uint16_t new_m_baroPressure) {
+	m_baroPressure = new_m_baroPressure;
 }
 
 
