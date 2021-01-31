@@ -87,6 +87,8 @@ int D_Class::CSV_Log(const char* forecastFile, const char* outputFile, std::stri
 	if (!dateTime.compare("0")) {
 		time_t giveMeTime = time(NULL);
 		dateTime = ctime(&giveMeTime);
+		std::cout << dateTime << std::endl;
+		std::cout << outputFile << std::endl;
 	}
 
 	// Here we open the output file
@@ -110,7 +112,9 @@ int D_Class::CSV_Log(const char* forecastFile, const char* outputFile, std::stri
 * @Desc: Clears all the private data in the D_Class object, setting it to 0
 */
 void D_Class::Clear() {
+	m_precipAmount = 0;
 	m_windSpeed = 0;
+	m_windDirection = 0;
 	m_lightLevel = 0;
 	m_temp = 0;
 	m_baroPressure = 0;

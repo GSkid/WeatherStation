@@ -37,21 +37,24 @@ static uint32_t CSV_Log_Timer = 0;
 int main() {
 #ifdef TEST_SUITE
 	// Logging Test
-	std::cout << "D_Class Test Suite - Method=Log() Result: " << (D_Log_Test("./src/DataFile.csv") ? "SUCCESS" : "FAIL") << std::endl;
-	std::cout << "                     Method=CSV_Log() Result: " << (D_CSV_Log_Test("../NN_Guess_TEST.txt", "../Website/WeatherData_TEST.csv", "-1") ? "SUCCESS" : "FAIL") << std::endl;
+	std::cout << "D_Class Test Suite - Method=Log() Result: " << (D_Log_Test("./DataFile.csv") ? "SUCCESS" : "FAIL") << std::endl;
+	std::cout << "                     Method=CSV_Log() Result: " << (D_CSV_Log_Test("../../NN_Guess_TEST.txt", "../../Website/WeatherData_TEST.csv", "-1") ? "SUCCESS" : "FAIL") << std::endl;
 
 	// Pulling Test
-	std::cout << "\nP_Class Test Suite - Method=Pull() Result: " << (P_Pull_Test("../NN_Guess_TEST.txt") ? "SUCCESS" : "FAIL") << std::endl;
+	std::cout << "\nP_Class Test Suite - Method=Pull() Result: " << (P_Pull_Test("../../NN_Guess_TEST.txt") ? "SUCCESS" : "FAIL") << std::endl;
     std::cin.get();
 #endif //TEST_SUITE
 
 	/********* SETUP *********/
+#ifdef DEBUG
+	std::cout << "Starting Set-up..." << std::endl;
+#endif //DEBUG
 #ifdef RF24
 	// Here we initialize any variables and call rf24_setup to setup the wireless network
 	rf24_setup();
     
-    // Sensor_Data_Struct for retrieving info from sensor node
-    Sensor_Data_Struct Sensor_Data;
+    	// Sensor_Data_Struct for retrieving info from sensor node
+    	Sensor_Data_Struct Sensor_Data;
 #endif //RF24
 
 	// Weather data object
@@ -78,6 +81,10 @@ int main() {
 	* 4) Call the python neural network forecast file
 	* 5) Log the data to the Weather Data's csv file for output (to be used by website)
 	*****/
+#ifdef DEBUG
+	std::cout << "Starting maing loop..." << std::endl;
+#endif //DEBUG
+
     while (1) {
         /********* STEP 1 *********/
         /* Wait for RF24 Messages from the sensor node*/
@@ -101,6 +108,9 @@ int main() {
                 switch (header.type) {
                     // Retrieve the data struct for D class messages
                 case 'D':
+#ifdef DEBUG
+		    std::cout << "Message Received From Sensor Node." << std::endl;
+#endif //DEBUG
                     // Use the data object to store data messages
                     network.read(header, &Sensor_Data, sizeof(Sensor_Data));
                     // Set the flag that indicates we need to respond to a new message
@@ -121,6 +131,9 @@ int main() {
         /* Update the D Class object members */
 
         if (DATA_FLAG) {
+#ifdef DEBUG
+	    std::cout << "Updating Weather Object" << std::endl;
+#endif //DEBUG
             WeatherData.Set_m_baroPressure(Sensor_Data.baroPressure);
             WeatherData.Set_m_temp(Sensor_Data.temp);
             WeatherData.Set_m_windSpeed(Sensor_Data.windSpeed);
@@ -131,7 +144,12 @@ int main() {
 
         /********* STEP 3 *********/
         /* Log the data to the output data stream file */
-        if (DATA_FLAG) WeatherData.Log("./src/DataFile.txt");
+        if (DATA_FLAG) {
+#ifdef DEBUG
+	    std::cout << "Logging to Output Data Stream File." << std::endl;
+#endif //DEBUG
+	    WeatherData.Log("/home/pi/Desktop/WeatherStation/WeatherStation/src/DataFile.csv");
+	}
 
         /********* STEP 4 *********/
         /* Call the python neural network forecast file */
@@ -142,12 +160,15 @@ int main() {
         /* Log the data to the Weather Data's csv file for output (to be used by website) */
 #ifdef RPi
         if (DATA_FLAG || Timer(MINUTES_15, CSV_Log_Timer)) {
+#ifdef DEBUG
+	    std::cout << "Logging to Website CSV File." << std::endl;
+#endif //DEBUG
             // Log the data to the Website output file
-            WeatherData.CSV_Log("../NN_Guess_TEST.txt", "../Website/WeatherData.csv", "0");
-        }
+            WeatherData.CSV_Log("/home/pi/Desktop/WeatherStation/NN_Guess_TEST.txt", "/home/pi/Desktop/WeatherStation/Website/WeatherData.csv", "0");
+            DATA_FLAG = 0;
+	}
 #endif //RPi
     }
-
 
 	return 0;
 }
