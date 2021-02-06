@@ -1,6 +1,36 @@
 # WeatherStation
-This project is designed to predict precipitation by collecting environmental data and using the PyTorch machine learning framework (specifically with neural networks) to recognize specific environmental flags that signify rain. The concept is simple, set up an external node to sit and collect data while semi-frequently transmitting that data to a central hub. The central hub then takes that data and runs it through the neural network algorithm, checking back at data corresponding to preset time intervals. This way we can use the environmental data to predict rain 30 mins, 1 hour, 3 hours, 6 hours, 12 hours, and 1 day ahead. Since the idea is to record data every 15 minutes, we know where to find the necessary data as well as the labels. Another idea is to separate the incoming data into different arrays so that each piece of data gets moved through the arrays (of varying length depending on the predictor of 15 mins, 1 hour, etc) and becomes relevant as the new data comes in. Either way, there should be one set of environmental data for each time interval and only a single output, with a value between 0 and 1 that scores the likelihood of precipitation for the time intervals.
+This weather station project allows developers to get access to real-time sensor data through a JSON file that includes information like wind speed, wind direction, precipitation, light level, temperature, and barometric pressure. To get access to the JSON file, visit http://weatherdataapi.ddns.net and click on the button in the middle of the screen. 
 
-Currently, I have a prototype version of the machine learning working with data from another project (my Skidless repository) but I don't have the hardware necessary to record all the environmental variables. The most challenging sensor to build will be the wind speed sensor; while not difficult in prinicple, getting all the necessary components and creating the process to monitor the sensor is a bit of a hassle. That said, I also still need a barometric pressure sensor and a temperature sensor, I just have decided to work on other, more important things right now. Evntually I would like to get back to this project, but for the time being, I have tabled it.
+## Motivation
+When I was doing my thesis, which was a smarter irrigation system that aimed at reducing waste water irrigation (https://github.com/GSkid/SkidLess), I found it difficult to get accurate, real-time weather data. While I had already planned to use my own sensors, I was hoping to augment my system with a more reliable source of weather data to alleviate strain on the sensor system; however, I realized that getting reliably accurate weather information in a form that was easily usable by my system was hard to find. We ended up using the Dark Sky API, which was an open source project that allowed our system to draw weather data from the closest national weather station. But since then, it has since been acquired by Apple who subsequently locked it behind a pay wall, rendering it effectively useless for small projects like this. So I wanted to create a system that allows users to quickly and easily draw up-to-date weather data from a reliable source.
 
-As for the program flow, everything is controlled with C++. The C++ project will operate a mcu, potentially with a radio transceiver to a sensor node, and that C++ project will call a python script, running the neural network. The two file types will communicate with each other via text files, the environmental data stored in one with the neural network decisions in another. I am currently in the process of augmenting the python file and writing all the necessary suporrt files for the C++ project (classes and whatnot), but I am happy with the current progress. The two main methods (for the D_Class and C_Class) in Log and Pull are working correctly and have unit tests while keeping everything neat and in predictable locations.
+## Build Status
+The code base is built, the website is actively hosted, but the sensors still need to be built. This means that the project is up, but not working. The sensors will still take time to get the parts and to build.
+
+## Technologies / Frameworks
+Hosted with:
+- Flask
+- Gunicorn
+- NGINX
+- NoIP
+
+Libraries used:
+- RF24
+- RF24 Network
+- RF24 Mesh
+
+Built with:
+- Microsoft Visual Studio
+- GNU Make
+
+## Installation
+First, clone the repository: most necessary files are included in the respective directories.
+Then you need to install flask (on Linux use the command "pip install flask").
+Then install Gunicorn (on Linux use the command "pip install gunicorn").
+Then install nginx (on Debian Linux use the command "sudo apt-get install nginx" after updating).
+
+## Tests
+To run the tests, navigate to /WeatherStation/WeatherStation/src and open the WeatherStation_Config.h file. In this file, uncomment the line with #define TEST_SUITE. Then back in the terminal in the same /src directory, run the commands "make clean" followed by "make test". Now run the command "./Test_WeatherStation". This should run the test suite and show you which tests from the WeatherStation.cpp file passed or failed.
+
+## How to Use?
+Simply go to http://weatherdataapi.ddns.net and click the button in the middle. This opens the JSON file with the most recent weather data; if you want to save the file, then you can right click and select "save as" which will allow you to save the JSON file. Or on Linux, you can download the file via the terminal using curl coupled with the url: http://weatherdataapi.ddns.net/api_get
