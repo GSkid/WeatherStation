@@ -57,8 +57,6 @@ private:
 	double m_lightLevel;
 	uint16_t m_temp;
 	uint16_t m_baroPressure;
-	uint16_t m_nodeID;
-	uint16_t m_digitalOut;
 };
 
 

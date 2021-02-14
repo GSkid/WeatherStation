@@ -48,7 +48,7 @@ int D_Class::Log(const char* outputFile) {
 		std::ofstream dataFile(outputFile);
 		// Then we add all the contents from the most recent data pull to a temp string
 		char strBuffer[30];
-		std::snprintf(strBuffer, 30, "\n%f,%f,%d,%d,%d,%d,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_nodeID, m_digitalOut);
+		std::snprintf(strBuffer, 30, "\n%f,%f,%d,%d,%d,%d,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_windSpeed, m_precipAmount);
 		// And add the temp string to the end of the output string
 		outData += strBuffer;
 		// Then write the outputData to the dataFile
@@ -118,8 +118,6 @@ void D_Class::Clear() {
 	m_lightLevel = 0;
 	m_temp = 0;
 	m_baroPressure = 0;
-	m_nodeID = 0;
-	m_digitalOut = 0;
 }
 
 
@@ -130,12 +128,12 @@ void D_Class::Clear() {
 */
 void D_Class::Print() {
 	// Each member must be cast as an int to print them as a number instead of a char
-	std::cout << "Soil Moisture: " << (int)m_windSpeed << std::endl;
-	std::cout << "Light Level: " << (int)m_lightLevel << std::endl;
+	std::cout << "Wind Speed: " << (double)m_windSpeed << std::endl;
+	std::cout << "Light Level: " << (double)m_lightLevel << std::endl;
 	std::cout << "Temperature: " << (int)m_temp << std::endl;
 	std::cout << "Barometric Pressure: " << (int)m_baroPressure << std::endl;
-	std::cout << "node ID: " << (int)m_nodeID << std::endl;
-	std::cout << "Digital Out: " << (int)m_digitalOut << std::endl;
+	std::cout << "Wind Direction: " << (double)m_windDirection << std::endl;
+	std::cout << "Precip Amount: " << (double)m_precipAmount << std::endl;
 }
 
 
