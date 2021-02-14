@@ -3,8 +3,8 @@
 
 /* Sensor Data Struct (used for transmitting data between devices) */
 typedef struct {
-	uint16_t baroPressure;
-	uint16_t temp;
+	int32_t baroPressure;
+	float temp;
 	double windSpeed;
 	double windDirection;
 	double lightLevel;

@@ -31,11 +31,12 @@ RF24Mesh mesh(radio, network);
 
 // D_Struct stores the relevant sensor data
 typedef struct {
-  float lightLevel;
-  float temp_C;
   int32_t pressure;
-  uint8_t node_ID;
-  uint8_t battLevel;
+  float temp_C;
+  double windSpeed;
+  double windDirection;
+  double lightLevel;
+  double precipAmount;
 } D_Struct;
 
 // Timers
@@ -117,7 +118,7 @@ void loop() {
   mesh.update();
 
   /**** Battery Level Check ****/
-  if (Timer(MINS_15, batteryTimer) && bmpFlag) {
+  if (Timer(MINS_15, batteryTimer)) {
     batteryTimer = millis();
     uint8_t batteryVoltage = pullBatteryLevel();
     if (batteryVoltage <= 35) {
@@ -148,8 +149,9 @@ void loop() {
       Data_Struct.temp_C = bmp.readTemperature();
       Data_Struct.pressure = bmp.readPressure();
     }
-    Data_Struct.battLevel = pullBatteryLevel();
-    Data_Struct.node_ID = nodeID;
+    Data_Struct.windSpeed = 0;
+    Data_Struct.windDirection = 0;
+    Data_Struct.precipAmount = 0;
 
 
     /**** Data Transmission ****/
@@ -182,41 +184,16 @@ void loop() {
       mesh.renewAddress();
       Serial.print(F("New Network Addr: ")); Serial.println(mesh.getAddress(nodeID));
     }
-  }
 
-
-  /**** No Message Response ****/
-
-  // Reset the mesh connection
-  if (message_Flag && Timer(1000, messageTimer)) {
-    message_Flag = 0;
-    // Reconnect to the network
-    if (!mesh.checkConnection()) {
-      Serial.println(F("Re-initializing the network ID..."));
-      mesh.renewAddress();
-      Serial.print(F("New Network Address: ")); Serial.println(mesh.getAddress(nodeID));
+    /**** Now go to sleep for 15 minutes ****/
+    uint8_t sleeping = 0;
+    while (sleeping < 15) {
+      network.sleepNode(8, 255); // Node goes to sleep here
+      sleepFlag = 1; // Tell the node it's time to read sensors and send a message
+      sleeping++;
     }
-    network.sleepNode(8, 255); // Node goes to sleep here
-    sleepFlag = 1; // Tell the node it's time to read sensors and send a message
+    sleeping = 0;
   }
-
-  
-  /**** 'D' Type Data Evaluation ****/
-
-  // Responding to the S or C type message from the master
-  if (M_Dat && message_Flag) {
-    // Turn off the message response flag
-    message_Flag = 0;
-    // If M_Dat == 2, reconfig the thresholds
-    // Reset the data variables
-    M_Dat = 0;
-    // Go to sleep
-    Serial.println(F("Received Sleep Instructions From Master"));
-    network.sleepNode(8, 255); // Node goes to sleep here
-    sleepFlag = 1; // Tell the node it's time to read sensors and send a message
-  }
-
-  /**** Config Options ****/
 
 } // Loop
 
@@ -226,8 +203,6 @@ void loop() {
 void D_Struct_Serial_print(D_Struct sct) {
   Serial.print(F("Ambient Lux Level   (lx): ")); Serial.println(sct.lightLevel);
   Serial.print(F("Ambient Temperature (C ): ")); Serial.println(sct.temp_C);
-  Serial.print(F("Power Supply Battery(dV): ")); Serial.println(sct.battLevel);
-  Serial.print(F("Node ID: ")); Serial.println(sct.node_ID);
   return;
 }
 
