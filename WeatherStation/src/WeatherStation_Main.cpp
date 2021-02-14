@@ -19,6 +19,7 @@
 #define TIMER_15_MINS_FLAG  (flags << 1)
 
 #define MINUTES_15 (900000)
+#define nodeID (0)
 
 /* Helper function declarations */
 #ifdef RF24
