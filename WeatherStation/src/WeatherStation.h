@@ -12,15 +12,13 @@ public:
 	// Constructors
 
 	D_Class() = default;
-	D_Class(int&& sM, int&& lL, int&& t, int&& bP, int&& ID, int&& dO) {
-		m_windSpeed = (double)sM;
+	D_Class(double&& wS, double&& lL, uint16_t&& t, uint16_t&& bP, double&& wD, double&& pA) {
+		m_windSpeed = (double)wS;
 		m_lightLevel = (double)lL;
 		m_temp = (uint16_t)t;
 		m_baroPressure = (uint16_t)bP;
-		m_nodeID = (uint16_t)ID;
-		m_digitalOut = (uint16_t)dO;
-		m_precipAmount = 0;
-		m_windDirection = 0;
+		m_windDirection = (double)wD;
+		m_precipAmount = (double)pA;
 	}
 
 	D_Class(D_Class&& newD) noexcept {
@@ -28,8 +26,8 @@ public:
 		m_lightLevel = newD.m_lightLevel;
 		m_temp = newD.m_temp;
 		m_baroPressure = newD.m_baroPressure;
-		m_nodeID = newD.m_nodeID;
-		m_digitalOut = newD.m_digitalOut;
+		m_windDirection = newD.m_windDirection;
+		m_precipAmount = newD.m_precipAmount;
 
 		newD.Clear();
 	}
@@ -39,10 +37,6 @@ public:
 	int CSV_Log(const char*, const char*, std::string = "0");
 	void Clear();
 	void Print();
-	int Read_LightLevelSensor(int);
-	int Read_TemperatureSensor(int);
-	int Read_PressureSensor(int);
-	int Read_WindSpeedSensor(int);
 	void Set_m_precipAmount(double);
 	void Set_m_windSpeed(double);
 	void Set_m_windDirection(double);

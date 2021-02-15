@@ -48,7 +48,7 @@ int D_Class::Log(const char* outputFile) {
 		std::ofstream dataFile(outputFile);
 		// Then we add all the contents from the most recent data pull to a temp string
 		char strBuffer[30];
-		std::snprintf(strBuffer, 30, "\n%f,%f,%d,%d,%d,%d,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_windSpeed, m_precipAmount);
+		std::snprintf(strBuffer, 30, "\n%f,%f,%d,%d,%f,%f,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_windSpeed, m_precipAmount);
 		// And add the temp string to the end of the output string
 		outData += strBuffer;
 		// Then write the outputData to the dataFile
@@ -134,67 +134,6 @@ void D_Class::Print() {
 	std::cout << "Barometric Pressure: " << (int)m_baroPressure << std::endl;
 	std::cout << "Wind Direction: " << (double)m_windDirection << std::endl;
 	std::cout << "Precip Amount: " << (double)m_precipAmount << std::endl;
-}
-
-
-/*@Function: D_Class::Read_LightLevelSensor
-* @Param: pinID - the pin number the sensor is on; -1 if the sensor is not used
-* @Return: int - 1 if the sensor was able to read properly, 0 if there was an error with the sensor
-* @Desc: Reads the current value from the light level sensor, cleans out some noise, and 
-* adds the value to the D_Class object's private member data
-*/
-int D_Class::Read_LightLevelSensor(int pinID) {
-	if (pinID == -1) return 0;
-	// Read the sensor using your mcu's pinout board (bcm2835 for RPi Zero W)
-
-	// Run the input through an averaging filter, assuming no complex digital filtering required
-
-	// Add the result to m_lightLevel
-	return 1;
-}
-
-/*@Function: D_Class::Read_TemperatureSensor
-* @Param: pinID - the pin number the sensor is on; -1 if the sensor is not used
-* @Return: int - 1 if the sensor was able to read properly, 0 if there was an error with the sensor
-* @Desc: Reads the current value from the light level sensor, cleans out some noise, and
-* adds the value to the D_Class object's private member data
-*/
-int D_Class::Read_TemperatureSensor(int pinID) {
-	if (pinID == -1) return 0;
-	// Read the sensor using a dedicated temperature sensor, I used the bmp180 (I2C communication)
-
-	// Add the result to m_temp
-	return 1;
-}
-
-/*@Function: D_Class::Read_PressureSensor
-* @Param: pinID - the pin number the sensor is on; -1 if the sensor is not used
-* @Return: int - 1 if the sensor was able to read properly, 0 if there was an error with the sensor
-* @Desc: Reads the current value from the barometric pressure sensor, cleans out some noise, and
-* adds the value to the D_Class object's private member data
-*/
-int D_Class::Read_PressureSensor(int pinID) {
-	if (pinID == -1) return 0;
-	// Read the sensor using a dedicated pressure sensor, I used the bmp180 (I2C communication)
-
-	// Add the result to m_baroPressure
-	return 1;
-}
-
-/*@Function: D_Class::Read_WindSpeedSensor
-* @Param: pinID - the pin number the sensor is on; -1 if the sensor is not used
-* @Return: int - 1 if the sensor was able to read properly, 0 if there was an error with the sensor
-* @Desc: Reads the current value from the barometric pressure sensor, cleans out some noise, and
-* adds the value to the D_Class object's private member data
-*/
-int D_Class::Read_WindSpeedSensor(int pinID) {
-	if (pinID == -1) return 0;
-	// Read the sensor using your mcu's pinout board (bcm2835 for RPi Zero W)
-
-	// Run the input through an averaging filter, assuming no complex digital filtering required
-
-	// Add the result to m_windSpeed
-	return 1;
 }
 
 void D_Class::Set_m_precipAmount(double new_m_precipAmount) {

@@ -5,32 +5,39 @@
 #ifdef TEST_SUITE
 #include "UnitTests.h"
 #endif //TEST_SUITE
-#ifdef RF24
+#ifdef rf24
 #include "RF24/RF24.h"
 #include "RF24Network/RF24Network.h"
 #include "RF24Mesh/RF24Mesh.h"
-#endif //RF24
+#endif //rf24
 #ifdef RPi
 #include "RF24/utility/RPi/bcm2835.h"
 #endif //RPi
 
 // Defines
-#define DATA_FLAG           (flags)
-#define TIMER_15_MINS_FLAG  (flags << 1)
+#define DATA_FLAG           (module_flags)
+#define TIMER_15_MINS_FLAG  (module_flags << 1)
 
-#define MINUTES_15 (900000)
-#define nodeID (0)
+constexpr auto MINUTES_15 = (900000);
+constexpr auto nodeID = (0);
 
 /* Helper function declarations */
-#ifdef RF24
+#ifdef rf24
 uint8_t rf24_setup();
-#endif //RF24
+#endif //rf24
 #ifdef RPi
 int Timer(const uint32_t& delayThresh, uint32_t& prevDelay);
 #endif //RPi
 
+/* Global Radio Variables*/
+#ifdef rf24
+RF24 radio(RPI_BPLUS_GPIO_J8_22, RPI_BPLUS_GPIO_J8_24, BCM2835_SPI_SPEED_8MHZ);
+RF24Network network(radio);
+RF24Mesh mesh(radio, network);
+#endif //rf24
+
 /* Static module level variables */
-static uint16_t flags = 0;
+static uint16_t module_flags = 0;
 static uint32_t CSV_Log_Timer = 0;
 
 
@@ -50,13 +57,13 @@ int main() {
 #ifdef DEBUG
 	std::cout << "Starting Set-up..." << std::endl;
 #endif //DEBUG
-#ifdef RF24
+#ifdef rf24
 	// Here we initialize any variables and call rf24_setup to setup the wireless network
 	rf24_setup();
     
-    	// Sensor_Data_Struct for retrieving info from sensor node
-    	Sensor_Data_Struct Sensor_Data;
-#endif //RF24
+    // Sensor_Data_Struct for retrieving info from sensor node
+    Sensor_Data_Struct Sensor_Data;
+#endif //rf24
 
 	// Weather data object
 	D_Class WeatherData;
@@ -65,12 +72,6 @@ int main() {
 	// Forecast object
 	P_Class ForecastPredictions;
 	ForecastPredictions.Clear(); // Clear it to init all member data to 0
-
-#ifdef RF24
-	RF24 radio(RPI_BPLUS_GPIO_J8_22, RPI_BPLUS_GPIO_J8_24, BCM2835_SPI_SPEED_8MHZ);
-	RF24Network network(radio);
-	RF24Mesh mesh(radio, network);
-#endif //RF24
 
 
     /********* Main Control Loop *********/
@@ -87,9 +88,11 @@ int main() {
 #endif //DEBUG
 
     while (1) {
+
+
         /********* STEP 1 *********/
         /* Wait for RF24 Messages from the sensor node*/
-#ifdef RF24
+#ifdef rf24
         // Keep the network updated
         mesh.update();
 
@@ -104,18 +107,19 @@ int main() {
             network.peek(header);
 
             // First ensure the message is actually addressed to the master
-            if (header.to_node == 0) {
+            if (!header.to_node) {
                 // Switch on the header type to sort out different message types
+                // We have the option to add more message types and add unique protocols
                 switch (header.type) {
                     // Retrieve the data struct for D class messages
                 case 'D':
 #ifdef DEBUG
-		    std::cout << "Message Received From Sensor Node." << std::endl;
+                    std::cout << "Message Received From Sensor Node." << std::endl;
 #endif //DEBUG
                     // Use the data object to store data messages
                     network.read(header, &Sensor_Data, sizeof(Sensor_Data));
                     // Set the flag that indicates we need to respond to a new message
-                    DATA_FLAG = 1;
+                    DATA_FLAG |= 1;
                     break;
 
                     // Do not read the header data if incorrect message type/corrupt data
@@ -128,12 +132,13 @@ int main() {
             else network.read(header, 0, 0);
         }
 
+
         /********* STEP 2 *********/
         /* Update the D Class object members */
 
         if (DATA_FLAG) {
 #ifdef DEBUG
-	    std::cout << "Updating Weather Object" << std::endl;
+            std::cout << "Updating Weather Object" << std::endl;
 #endif //DEBUG
             WeatherData.Set_m_baroPressure(Sensor_Data.baroPressure);
             WeatherData.Set_m_temp(Sensor_Data.temp);
@@ -143,39 +148,40 @@ int main() {
             WeatherData.Set_m_precipAmount(Sensor_Data.precipAmount);
         }
 
+
         /********* STEP 3 *********/
         /* Log the data to the output data stream file */
         if (DATA_FLAG) {
 #ifdef DEBUG
-	    std::cout << "Logging to Output Data Stream File." << std::endl;
+            std::cout << "Logging to Output Data Stream File." << std::endl;
 #endif //DEBUG
-	    WeatherData.Log("/home/pi/Desktop/WeatherStation/WeatherStation/src/DataFile.csv");
-	}
+            WeatherData.Log("/home/pi/Desktop/WeatherStation/WeatherStation/src/DataFile.csv");
+        }
 
         /********* STEP 4 *********/
         /* Call the python neural network forecast file */
 
-#endif //RF24
+#endif //rf24
 
         /********* STEP 5 *********/
         /* Log the data to the Weather Data's csv file for output (to be used by website) */
 #ifdef RPi
         if (DATA_FLAG || Timer(MINUTES_15, CSV_Log_Timer)) {
 #ifdef DEBUG
-	    std::cout << "Logging to Website CSV File." << std::endl;
+            std::cout << "Logging to Website CSV File." << std::endl;
 #endif //DEBUG
             // Log the data to the Website output file
             WeatherData.CSV_Log("/home/pi/Desktop/WeatherStation/NN_Guess_TEST.txt", "/home/pi/Desktop/WeatherStation/Website/WeatherData.csv", "0");
             DATA_FLAG = 0;
-	}
 #endif //RPi
+        }
     }
 
 	return 0;
 }
 
 
-#ifdef RF24
+#ifdef rf24
 /**** RF24_Setup ****/
 /* @Param: none
 *  @Return: whether network set-up was successful or not
@@ -185,14 +191,18 @@ int main() {
 uint8_t rf24_setup() {
 	// Set this node as the master node
 	mesh.setNodeID(nodeID);
-	printf("Node ID: %d\n", nodeID);
+#ifdef DEBUG
+    std::cout << "Node ID: " << nodeID << std::endl;
+#endif // DEBUG
 	radio.setPALevel(RF24_PA_MAX);
 
 	// Initialize the mesh and check for proper chip connection
-	if (mesh.begin()) printf("\nInitialized: %d\n", radio.isChipConnected();
+	if (mesh.begin()) printf("Initialized: %d\n", radio.isChipConnected());
 
 	// Print out debugging information
+#ifdef DEBUG
 	radio.printDetails();
+#endif // DEBUG
 	return;
 }
 #endif //RF24

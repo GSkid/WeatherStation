@@ -1,4 +1,4 @@
-#ifdef WEATHER_STATION_MAIN
+#ifndef WEATHER_STATION_MAIN
 #define WEATHER_STATION_MAIN
 
 /* Sensor Data Struct (used for transmitting data between devices) */
