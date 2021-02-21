@@ -203,6 +203,7 @@ void loop() {
 void D_Struct_Serial_print(D_Struct sct) {
   Serial.print(F("Ambient Lux Level   (lx): ")); Serial.println(sct.lightLevel);
   Serial.print(F("Ambient Temperature (C ): ")); Serial.println(sct.temp_C);
+  Serial.print(F("Barometric Pressure (Pa): ")); Serial.println(sct.pressure);
   return;
 }
 
