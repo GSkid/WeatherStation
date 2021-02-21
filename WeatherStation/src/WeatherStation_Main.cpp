@@ -203,7 +203,7 @@ uint8_t rf24_setup() {
 #ifdef DEBUG
 	radio.printDetails();
 #endif // DEBUG
-	return;
+	return radio.isChipConnected();
 }
 #endif //RF24
 

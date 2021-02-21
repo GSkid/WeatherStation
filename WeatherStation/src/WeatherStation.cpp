@@ -48,7 +48,7 @@ int D_Class::Log(const char* outputFile) {
 		std::ofstream dataFile(outputFile);
 		// Then we add all the contents from the most recent data pull to a temp string
 		char strBuffer[30];
-		std::snprintf(strBuffer, 30, "\n%f,%f,%d,%d,%f,%f,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_windSpeed, m_precipAmount);
+		std::snprintf(strBuffer, 30, "\n%.3f,%.3f,%d,%d,%.3f,%.3f,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_windSpeed, m_precipAmount);
 		// And add the temp string to the end of the output string
 		outData += strBuffer;
 		// Then write the outputData to the dataFile
