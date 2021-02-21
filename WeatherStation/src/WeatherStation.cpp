@@ -136,20 +136,24 @@ void D_Class::Print() {
 	std::cout << "Precip Amount: " << (double)m_precipAmount << std::endl;
 }
 
-void D_Class::Set_m_precipAmount(double new_m_precipAmount) {
-	m_precipAmount = new_m_precipAmount;
+void D_Class::Set_m_precipAmount(double new_m_precipAmount) { 
+	if (new_m_precipAmount < 0.0001) m_precipAmount = 0;
+	else m_precipAmount = new_m_precipAmount;
 }
 
 void D_Class::Set_m_windSpeed(double new_m_windSpeed) {
-	m_windSpeed = new_m_windSpeed;
+	if (new_m_windSpeed < 0.0001) m_windSpeed = 0;
+	else m_windSpeed = new_m_windSpeed;
 }
 
 void D_Class::Set_m_windDirection(double new_m_windDirection) {
-	m_windDirection = new_m_windDirection;
+	if (new_m_windDirection < 0.0001) m_windDirection = 0;
+	else m_windDirection = new_m_windDirection;
 }
 
 void D_Class::Set_m_lightLevel(double new_m_lightLevel) {
-	m_lightLevel = new_m_lightLevel;
+	if (new_m_lightLevel < 0.0001) m_lightLevel = 0;
+	else m_lightLevel = new_m_lightLevel;
 }
 
 void D_Class::Set_m_temp(uint16_t new_m_temp) {
