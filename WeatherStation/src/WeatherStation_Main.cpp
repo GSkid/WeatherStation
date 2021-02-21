@@ -61,8 +61,8 @@ int main() {
 	// Here we initialize any variables and call rf24_setup to setup the wireless network
 	rf24_setup();
     
-    // Sensor_Data_Struct for retrieving info from sensor node
-    Sensor_Data_Struct Sensor_Data;
+   	 // Sensor_Data_Struct for retrieving info from sensor node
+   	 Sensor_Data_Struct Sensor_Data;
 #endif //rf24
 
 	// Weather data object
@@ -192,9 +192,8 @@ uint8_t rf24_setup() {
 	// Set this node as the master node
 	mesh.setNodeID(nodeID);
 #ifdef DEBUG
-    std::cout << "Node ID: " << nodeID << std::endl;
+    	std::cout << "Node ID: " << nodeID << std::endl;
 #endif // DEBUG
-	radio.setPALevel(RF24_PA_MAX);
 
 	// Initialize the mesh and check for proper chip connection
 	if (mesh.begin()) printf("Initialized: %d\n", radio.isChipConnected());
@@ -203,7 +202,7 @@ uint8_t rf24_setup() {
 #ifdef DEBUG
 	radio.printDetails();
 #endif // DEBUG
-	return;
+	return radio.isChipConnected();
 }
 #endif //RF24
 
