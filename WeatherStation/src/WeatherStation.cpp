@@ -48,7 +48,7 @@ int D_Class::Log(const char* outputFile) {
 		std::ofstream dataFile(outputFile);
 		// Then we add all the contents from the most recent data pull to a temp string
 		char strBuffer[30];
-		std::snprintf(strBuffer, 30, "\n%.3f,%.3f,%d,%d,%.3f,%.3f,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_windSpeed, m_precipAmount);
+		std::snprintf(strBuffer, 30, "\n%.3f,%d,%d,%d,%.3f,%.3f,", m_windSpeed, m_lightLevel, m_temp, m_baroPressure, m_windSpeed, m_precipAmount);
 		// And add the temp string to the end of the output string
 		outData += strBuffer;
 		// Then write the outputData to the dataFile
@@ -151,7 +151,7 @@ void D_Class::Set_m_windDirection(double new_m_windDirection) {
 	else m_windDirection = new_m_windDirection;
 }
 
-void D_Class::Set_m_lightLevel(double new_m_lightLevel) {
+void D_Class::Set_m_lightLevel(int16_t new_m_lightLevel) {
 	if (new_m_lightLevel < 0.0001) m_lightLevel = 0;
 	else m_lightLevel = new_m_lightLevel;
 }
