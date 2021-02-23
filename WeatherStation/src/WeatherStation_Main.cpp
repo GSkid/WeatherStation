@@ -116,8 +116,8 @@ int main() {
 #ifdef DEBUG
                     std::cout << "Message Received From Sensor Node." << std::endl;
 #endif //DEBUG
-                    // Use the data object to store data messages
-                    network.read(header, &Sensor_Data, sizeof(Sensor_Data));
+                    // Use the data object to store data messagess
+		    while (network.available()) network.read(header, &Sensor_Data, sizeof(Sensor_Data));
                     // Set the flag that indicates we need to respond to a new message
                     DATA_FLAG |= 1;
                     break;
@@ -142,10 +142,10 @@ int main() {
 #endif //DEBUG
             WeatherData.Set_m_baroPressure(Sensor_Data.baroPressure);
             WeatherData.Set_m_temp(Sensor_Data.temp);
-            WeatherData.Set_m_windSpeed(Sensor_Data.windSpeed);
-            WeatherData.Set_m_windDirection(Sensor_Data.windDirection);
+//            WeatherData.Set_m_windSpeed(Sensor_Data.windSpeed);
+//            WeatherData.Set_m_windDirection(Sensor_Data.windDirection);
             WeatherData.Set_m_lightLevel(Sensor_Data.lightLevel);
-            WeatherData.Set_m_precipAmount(Sensor_Data.precipAmount);
+//            WeatherData.Set_m_precipAmount(Sensor_Data.precipAmount);
         }
 
 
@@ -154,6 +154,9 @@ int main() {
         if (DATA_FLAG) {
 #ifdef DEBUG
             std::cout << "Logging to Output Data Stream File." << std::endl;
+	    std::cout << "Temperature: " << Sensor_Data.temp << std::endl;
+	    std::cout << "Baro Pressure: " << Sensor_Data.baroPressure << std::endl;
+	    std::cout << "Light Level: " << Sensor_Data.lightLevel << std::endl;
 #endif //DEBUG
             WeatherData.Log("/home/pi/Desktop/WeatherStation/WeatherStation/src/DataFile.csv");
         }

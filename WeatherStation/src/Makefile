@@ -18,9 +18,9 @@ UnitTest.o: UnitTests.cpp
 	g++ -c UnitTests.cpp $(CXXFLAGS) -Wall -I./ -pthread -o UnitTest.o
 
 clean-test:
-	rm Test_WeatherStation
+	rm ./Test_WeatherStation
 	rm ./*.o
 
 clean-run: 
-	rm WeatherStation_Run
+	rm ./WeatherStation_Run
 	rm ./*.o
