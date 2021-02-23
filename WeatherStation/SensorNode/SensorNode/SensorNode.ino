@@ -33,10 +33,10 @@ RF24Mesh mesh(radio, network);
 typedef struct {
   int32_t pressure;
   float temp_C;
-  double windSpeed;
-  double windDirection;
-  double lightLevel;
-  double precipAmount;
+//  double windSpeed;
+//  double windDirection;
+  int16_t lightLevel;
+//  double precipAmount;
 } D_Struct;
 
 // Timers
@@ -66,7 +66,7 @@ static D_Struct Data_Struct;
 void D_Struct_Serial_print(D_Struct);
 float pullMoistureSensor(void);
 float getMoistureReading(void);
-float pullLightSensor(void);
+int16_t pullLightSensor(void);
 float getLightReading(void);
 uint8_t pullBatteryLevel(void);
 int Timer(uint32_t, uint32_t);
@@ -117,7 +117,9 @@ void loop() {
   // Keep the network updated
   mesh.update();
 
+
   /**** Battery Level Check ****/
+/*
   if (Timer(MINS_15, batteryTimer)) {
     batteryTimer = millis();
     uint8_t batteryVoltage = pullBatteryLevel();
@@ -135,6 +137,7 @@ void loop() {
     }
   }
 
+*/
 
 
 
@@ -149,9 +152,9 @@ void loop() {
       Data_Struct.temp_C = bmp.readTemperature();
       Data_Struct.pressure = bmp.readPressure();
     }
-    Data_Struct.windSpeed = 0;
-    Data_Struct.windDirection = 0;
-    Data_Struct.precipAmount = 0;
+    //Data_Struct.windSpeed = 0;
+    //Data_Struct.windDirection = 0;
+    //Data_Struct.precipAmount = 0;
 
 
     /**** Data Transmission ****/
@@ -177,6 +180,7 @@ void loop() {
         Serial.println(F("Sending Data to Master")); D_Struct_Serial_print(Data_Struct);
         // Set the flag to check for a failed message response
         message_Flag = 1; messageTimer = millis();
+        delay(10);
       }
     } else {
       // Reconnect to the mesh if disconnected
@@ -230,7 +234,7 @@ float getLightReading(void) {
    @param: none
    @return: averaged value of the mapped sensor value
 */
-float pullLightSensor(void) {
+int16_t pullLightSensor(void) {
   float read1 = getLightReading();
   delayMicroseconds(10);
   float read2 = getLightReading();
