@@ -160,7 +160,7 @@ void D_Class::Set_m_temp(uint16_t new_m_temp) {
 	m_temp = new_m_temp;
 }
 
-void D_Class::Set_m_baroPressure(uint16_t new_m_baroPressure) {
+void D_Class::Set_m_baroPressure(int32_t new_m_baroPressure) {
 	m_baroPressure = new_m_baroPressure;
 }
 

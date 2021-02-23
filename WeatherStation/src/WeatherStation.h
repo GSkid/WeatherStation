@@ -12,11 +12,11 @@ public:
 	// Constructors
 
 	D_Class() = default;
-	D_Class(double&& wS, int16_t&& lL, uint16_t&& t, uint16_t&& bP, double&& wD, double&& pA) {
+	D_Class(double&& wS, int16_t&& lL, uint16_t&& t, int32_t&& bP, double&& wD, double&& pA) {
 		m_windSpeed = (double)wS;
 		m_lightLevel = (int16_t)lL;
 		m_temp = (uint16_t)t;
-		m_baroPressure = (uint16_t)bP;
+		m_baroPressure = (int32_t)bP;
 		m_windDirection = (double)wD;
 		m_precipAmount = (double)pA;
 	}
@@ -42,7 +42,7 @@ public:
 	void Set_m_windDirection(double);
 	void Set_m_lightLevel(int16_t);
 	void Set_m_temp(uint16_t);
-	void Set_m_baroPressure(uint16_t);
+	void Set_m_baroPressure(int32_t);
 
 private:
 	double m_precipAmount;
@@ -50,7 +50,7 @@ private:
 	double m_windDirection;
 	int16_t m_lightLevel;
 	uint16_t m_temp;
-	uint16_t m_baroPressure;
+	int32_t m_baroPressure;
 };
 
 
